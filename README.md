@@ -14,8 +14,23 @@ The ISP (`play`) places residential connections behind CGNAT, meaning no public 
 
 ## Network Topology
 
-```
-Internet → VPS (nginx, per-domain reverse proxy) → WireGuard tunnel → Services
+```mermaid
+graph LR
+    Internet((Internet))
+
+    subgraph VPS ["VPS · 178.104.50.250"]
+        nginx_vps["nginx\nTCP stream proxy\n80 · 443"]
+    end
+
+    subgraph Local ["Local machine · 10.0.0.2"]
+        nginx_local["nginx\nper-domain + SSL"]
+    end
+
+    Piotr["Piotr's machine\n10.0.0.3"]
+
+    Internet --> nginx_vps
+    nginx_vps -->|WireGuard · 10.0.0.1 → 10.0.0.2| nginx_local
+    nginx_local <-->|WireGuard| Piotr
 ```
 
 **DNS & Domain:** `chudkowsky.com` is registered and managed on Cloudflare. DNS records point to the VPS public IP.
@@ -81,14 +96,14 @@ All web services run via Docker Compose from `~/dev/chudas/` or `~/dev/piot/`.
 | Domain | Port | Directory | Repository |
 |--------|------|-----------|------------|
 | `chudkowsky.com` | 3000 | `~/dev/chudas/personal-page` | [chudkowsky/personal-page](https://github.com/chudkowsky/personal-page) |
-| `docs.chudkowsky.com` | 8002 | `~/dev/chudas/howcryptoworksbook` | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
+| `book.chudkowsky.com` | 8002 | `~/dev/chudas/howcryptoworksbook` | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
 | `quiz.chudkowsky.com` | 8001 | `~/dev/chudas/interview` | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
 
 ---
 
 ## Detailed Docs
 
-- [Nginx](./nginx.md) — server block structure, certbot, planned migration
+- [Nginx](./nginx.md) — config templates, certbot, VPS stream proxy setup
 - [WireGuard](./wireguard.md) — tunnel topology, peer config, useful commands
 - [Adding a new service](./new-service.md) — manual flow for Cloudflare and DuckDNS
 - [Plans](./plans.md) — future migrations and automation
