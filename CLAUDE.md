@@ -61,5 +61,5 @@ Next available port: `8003`
 - [wireguard.md](./wireguard.md) — topology, peer configs, key rotation
 - [new-service.md](./new-service.md) — manual flow for adding a service
 - [duckdns-flow.md](./duckdns-flow.md) — flow for services without a custom domain
-- [plans.md](./plans.md) — future migrations and automation plans
+- [plans/](./plans/) — future migrations and automation plans
 - [completed/](./completed/) — completed migrations with full step-by-step records

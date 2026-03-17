@@ -112,7 +112,7 @@ All web services run via Docker Compose from `~/dev/chudas/` or `~/dev/piot/`.
 - [Nginx](./nginx.md) — config templates, TLS, VPS stream proxy setup
 - [WireGuard](./wireguard.md) — tunnel topology, peer config, useful commands
 - [Adding a new service](./new-service.md) — manual flow for Cloudflare and DuckDNS
-- [Plans](./plans.md) — future migrations and automation
+- [plans/](./plans/) — future migrations and automation
 - [completed/](./completed/) — completed migrations with full step-by-step records
 
 ### Game Server
