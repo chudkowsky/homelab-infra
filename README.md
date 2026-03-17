@@ -1,0 +1,114 @@
+# homelab-infra
+
+Documentation of the homelab infrastructure built with Piotr Stec. This repo serves as a knowledge base for understanding, maintaining, and extending the setup.
+
+---
+
+## Background
+
+To enable new learning opportunities, I decided to build a homelab. My friend Piotr provided the hardware parts and together we assembled a v1 server.
+
+The ISP (`play`) places residential connections behind CGNAT, meaning no public IPv4 or IPv6 address is available — only business clients get a public address. This made a VPS necessary to enable outside connectivity.
+
+---
+
+## Network Topology
+
+```
+Internet → VPS (nginx, per-domain reverse proxy) → WireGuard tunnel → Services
+```
+
+**DNS & Domain:** `chudkowsky.com` is registered and managed on Cloudflare. DNS records point to the VPS public IP.
+
+**WireGuard peers:**
+- VPS ↔ Local machine (primary tunnel for traffic forwarding)
+- Local machine ↔ Friend's machine (additional peer)
+
+---
+
+## Hardware
+
+### Local Server
+
+| Component     | Spec                                          |
+|---------------|-----------------------------------------------|
+| CPU           | Intel Core i3-8100 (4 cores, 4 threads, 6MB cache) |
+| GPU           | Intel UHD Graphics 630 (integrated)          |
+| RAM           | 8GB DDR4 Crucial Ballistix Sport 2400MHz     |
+| Motherboard   | Gigabyte B360M DS3H                          |
+| PSU           | Elementum E2 SI 350W 80Plus                  |
+| Storage       | SSD GOODRAM CX400 GEN.2 256GB                |
+
+### VPS (Hetzner)
+
+| Component     | Spec                                          |
+|---------------|-----------------------------------------------|
+| CPU           | 2 vCPU (Intel Xeon Skylake, KVM/QEMU)        |
+| RAM           | 4GB virtual                                  |
+| GPU           | Virtio 1.0 (virtual)                         |
+
+---
+
+## Software
+
+### Local Server
+
+| Property          | Value                        |
+|-------------------|------------------------------|
+| OS                | Ubuntu 24.04.4 LTS           |
+| Kernel            | Linux 6.8.0-101-generic      |
+| Architecture      | x86-64                       |
+| Firmware Version  | F17 (2021-11-05)             |
+
+### VPS
+
+| Property          | Value                        |
+|-------------------|------------------------------|
+| OS                | Ubuntu 24.04.3 LTS           |
+| Kernel            | Linux 6.8.0-90-generic       |
+| Architecture      | x86-64                       |
+| Vendor            | Hetzner vServer              |
+| Firmware Version  | 20171111 (2017-11-11)        |
+
+---
+
+## Services
+
+### Web Pages
+
+| Domain | Port | Description | Repository |
+|--------|------|-------------|------------|
+| `chudkowsky.com` | 3000 | Personal CV and experience page, future blog | [chudkowsky/personal-page](https://github.com/chudkowsky/personal-page) |
+| `docs.chudkowsky.com` | 8002 | HTML conversion of howcryptoworksbook — readable crypto documentation | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
+| `quiz.chudkowsky.com` | 8001 | Interview prep for DeFi topics, split into theory and questions | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
+
+---
+
+## Detailed Docs
+
+- [Nginx](./nginx.md) — server block structure, certbot, planned migration
+- [WireGuard](./wireguard.md) — tunnel topology, peer config, useful commands
+- [Adding a new service](./new-service.md) — manual flow for Cloudflare and DuckDNS
+- [Plans](./plans.md) — future migrations and automation
+
+### Game Server
+
+| Property | Value |
+|----------|-------|
+| Game | Minecraft |
+| Version | Paper 1.21.10 |
+| Port | 25565 (default) |
+| Access | Public, whitelist-guarded |
+| Directory | `~/dev/chudas/minecraft_server_2` |
+| Process | Running directly on host in a `tmux` session (`mc-world-2`) |
+
+```bash
+# Start
+tmux new-session -s mc-world-2 java -Xmx4G -Xms2G -jar minecraft_server.jar nogui
+
+# Stop
+tmux kill-session -t mc-world-2
+
+# List sessions
+tmux ls
+```
