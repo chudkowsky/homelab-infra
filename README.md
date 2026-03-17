@@ -23,14 +23,20 @@ graph LR
     end
 
     subgraph Local ["Local machine · 10.0.0.2"]
-        nginx_local["nginx\nper-domain + SSL"]
+        nginx_local["nginx\nper-domain + TLS"]
+        s1["chudkowsky.com · :3000"]
+        s2["quiz.chudkowsky.com · :8001"]
+        s3["book.chudkowsky.com · :8002"]
     end
 
-    Piotr["Piotr's machine\n10.0.0.3"]
+    Peer["WireGuard peer\n10.0.0.3+"]
 
     Internet --> nginx_vps
     nginx_vps -->|WireGuard · 10.0.0.1 → 10.0.0.2| nginx_local
-    nginx_local <-->|WireGuard| Piotr
+    nginx_local --> s1
+    nginx_local --> s2
+    nginx_local --> s3
+    nginx_local <-->|WireGuard| Peer
 ```
 
 **DNS & Domain:** `chudkowsky.com` is registered and managed on Cloudflare. DNS records point to the VPS public IP.
