@@ -2,11 +2,47 @@
 
 ## Overview
 
-Nginx runs on the VPS and acts as a reverse proxy. Each domain has its own server block config. Traffic is forwarded through the WireGuard tunnel to the service running on the local machine.
+Two nginx instances — one on VPS, one on local machine.
+
+- **VPS nginx**: static TCP stream proxy. Forwards ports 80 and 443 to local machine over WireGuard. Config never changes when adding new services.
+- **Local nginx**: handles all per-domain server blocks and SSL termination via certbot.
+
+```
+Internet → VPS nginx (stream proxy) → 10.0.0.2 → Local nginx → localhost:PORT
+```
 
 ---
 
-## Config Structure
+## VPS — Stream Proxy
+
+**Config file:** `/etc/nginx/stream.d/proxy.conf`
+
+```nginx
+server {
+    listen 80;
+    proxy_pass 10.0.0.2:80;
+}
+
+server {
+    listen 443;
+    proxy_pass 10.0.0.2:443;
+}
+```
+
+The `stream` module is loaded via `/etc/nginx/modules-enabled/` (package: `libnginx-mod-stream`).
+
+`/etc/nginx/nginx.conf` must include at top level (outside `http` block):
+```nginx
+stream {
+    include /etc/nginx/stream.d/*.conf;
+}
+```
+
+**Reload:** `sudo systemctl reload nginx`
+
+---
+
+## Local Machine — Per-domain Config
 
 | Property | Value |
 |----------|-------|
@@ -15,13 +51,7 @@ Nginx runs on the VPS and acts as a reverse proxy. Each domain has its own serve
 | Reload command | `sudo systemctl reload nginx` |
 | Naming convention | Short name without domain extension (e.g. `chudkowsky`, `quiz`, `book`) |
 
----
-
-## Server Block Templates
-
-### Default (HTTP only)
-
-Always start with this. Sufficient for internal tools or when SSL is not needed.
+### Server Block Template (HTTP only)
 
 ```nginx
 server {
@@ -29,24 +59,23 @@ server {
     server_name DOMAIN;
 
     location / {
-        proxy_pass http://10.0.0.2:PORT;
+        proxy_pass http://localhost:PORT;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
 }
 ```
 
-### With SSL (optional)
+### Adding SSL
 
-Start with the HTTP-only config, then run certbot with the `--nginx` flag. Certbot will automatically modify the config to add SSL and HTTP→HTTPS redirect.
+Start with the HTTP-only config, then run certbot:
 
 ```bash
 sudo certbot --nginx -d DOMAIN
 ```
 
-Renewal is handled automatically via systemd timer:
+Certbot modifies the config to add SSL and HTTP→HTTPS redirect. Renewal is handled automatically via systemd timer:
 
 ```bash
 sudo systemctl status certbot.timer
 ```
-
