@@ -35,3 +35,5 @@ Automate the manual flow for adding a new service:
 **Constraint:** Only Docker Compose repos supported.
 
 **Depends on:** nginx migration above being completed first.
+
+**TODO:** Define Docker Compose structure convention (port exposure, required fields) before building automation. This will become the standard for all repos under `~/dev/piot/`.

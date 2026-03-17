@@ -49,7 +49,8 @@ Next available port: `8003`
 - New services start with HTTP-only nginx config; certbot (`sudo certbot --nginx -d DOMAIN`) is optional upgrade
 - No custom domain: use DuckDNS, same certbot command applies
 - All web services run via Docker Compose
-- Repos are cloned under `~/dev/chudas/` (Mateusz's projects) or `~/dev/piot/` (Piotr's projects)
+- Repos are cloned under `~/dev/chudas/` (Mateusz's projects) or `~/dev/piot/` (Piotr's projects — currently empty)
+- Docker Compose structure convention is TBD, will be defined during PaaS automation build
 
 ---
 
