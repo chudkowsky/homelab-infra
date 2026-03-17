@@ -10,7 +10,13 @@ sudo cp /etc/nginx/sites-available/chudkowsky /etc/nginx/sites-available/SHORTNA
 sudo ln -s /etc/nginx/sites-available/SHORTNAME /etc/nginx/sites-enabled/SHORTNAME
 sudo systemctl reload nginx
 ```
-3. Start the service on the local machine on the chosen port
+3. Clone the repo and start the service on the local machine:
+```bash
+cd ~/dev/chudas  # or ~/dev/piot
+git clone GIT_URL
+cd REPO_NAME
+docker compose up -d
+```
 4. _(Optional)_ Run certbot: `sudo certbot --nginx -d SUBDOMAIN.chudkowsky.com`
 
 See [nginx.md](./nginx.md) for config templates.

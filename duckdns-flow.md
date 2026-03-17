@@ -30,7 +30,12 @@ sudo systemctl reload nginx
 
 ### 3. Start the service on local machine
 
-Start the service on the chosen port, same as the standard flow.
+```bash
+cd ~/dev/chudas  # or ~/dev/piot
+git clone GIT_URL
+cd REPO_NAME
+docker compose up -d
+```
 
 ### 4. _(Optional)_ Issue SSL certificate with Certbot
 

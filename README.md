@@ -76,11 +76,13 @@ Internet → VPS (nginx, per-domain reverse proxy) → WireGuard tunnel → Serv
 
 ### Web Pages
 
-| Domain | Port | Description | Repository |
-|--------|------|-------------|------------|
-| `chudkowsky.com` | 3000 | Personal CV and experience page, future blog | [chudkowsky/personal-page](https://github.com/chudkowsky/personal-page) |
-| `docs.chudkowsky.com` | 8002 | HTML conversion of howcryptoworksbook — readable crypto documentation | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
-| `quiz.chudkowsky.com` | 8001 | Interview prep for DeFi topics, split into theory and questions | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
+All web services run via Docker Compose from `~/dev/chudas/` or `~/dev/piot/`.
+
+| Domain | Port | Directory | Repository |
+|--------|------|-----------|------------|
+| `chudkowsky.com` | 3000 | `~/dev/chudas/personal-page` | [chudkowsky/personal-page](https://github.com/chudkowsky/personal-page) |
+| `docs.chudkowsky.com` | 8002 | `~/dev/chudas/howcryptoworksbook` | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
+| `quiz.chudkowsky.com` | 8001 | `~/dev/chudas/interview` | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
 
 ---
 
