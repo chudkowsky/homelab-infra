@@ -1,4 +1,4 @@
-# Migrate nginx to local machine
+# Migrate nginx to homeserver
 
 **Completed:** 2026-03-17
 
@@ -9,15 +9,15 @@
 Internet → VPS (TCP stream proxy, ports 80/443) → WireGuard → Local nginx (per-domain) → Services
 ```
 
-**Benefit:** VPS is now fully static — config never changes when adding new services. All automation runs on local machine only.
+**Benefit:** VPS is now fully static — config never changes when adding new services. All automation runs on homeserver only.
 
 ---
 
 ### Step-by-step
 
-#### 1. Local machine — recreate all server blocks
+#### 1. Homeserver — recreate all server blocks
 
-Copy/rewrite each existing VPS server block under `/etc/nginx/sites-available/` on the local machine.
+Copy/rewrite each existing VPS server block under `/etc/nginx/sites-available/` on the homeserver.
 Adjust `proxy_pass` to use `localhost` (or `127.0.0.1`) instead of `10.0.0.2`.
 
 Domains migrated:
@@ -38,7 +38,7 @@ Test config before touching the VPS:
 sudo nginx -t
 ```
 
-#### 2. Local machine — obtain SSL certificates
+#### 2. Homeserver — obtain SSL certificates
 
 ```bash
 sudo certbot --nginx -d chudkowsky.com
@@ -82,7 +82,7 @@ sudo nginx -t && sudo systemctl reload nginx
 #### 4. Verify
 
 - Hit each domain over HTTPS — cert should now be issued by local certbot.
-- Check that `X-Real-IP` is preserved (nginx on local machine gets the real client IP via the stream proxy).
+- Check that `X-Real-IP` is preserved (nginx on homeserver gets the real client IP via the stream proxy).
 
 #### 5. Cleanup
 

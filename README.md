@@ -22,7 +22,7 @@ graph LR
         nginx_vps["nginx\nTCP stream proxy\n80 · 443"]
     end
 
-    subgraph Local ["Local machine · 10.0.0.2"]
+    subgraph Local ["Homeserver · 10.0.0.2"]
         nginx_local["nginx\nper-domain + TLS"]
         s1["chudkowsky.com · :3000"]
         s2["quiz.chudkowsky.com · :8001"]
@@ -42,14 +42,14 @@ graph LR
 **DNS & Domain:** `chudkowsky.com` is registered and managed on Cloudflare. DNS records point to the VPS public IP.
 
 **WireGuard peers:**
-- VPS ↔ Local machine (primary tunnel for traffic forwarding)
-- Local machine ↔ Friend's machine (additional peer)
+- VPS ↔ Homeserver (primary tunnel for traffic forwarding)
+- Homeserver ↔ WireGuard peer (additional peer)
 
 ---
 
 ## Hardware
 
-### Local Server
+### Homeserver
 
 | Component     | Spec                                          |
 |---------------|-----------------------------------------------|
@@ -72,7 +72,7 @@ graph LR
 
 ## Software
 
-### Local Server
+### Homeserver
 
 | Property          | Value                        |
 |-------------------|------------------------------|
@@ -109,10 +109,11 @@ All web services run via Docker Compose from `~/dev/chudas/` or `~/dev/piot/`.
 
 ## Detailed Docs
 
-- [Nginx](./nginx.md) — config templates, certbot, VPS stream proxy setup
+- [Nginx](./nginx.md) — config templates, TLS, VPS stream proxy setup
 - [WireGuard](./wireguard.md) — tunnel topology, peer config, useful commands
 - [Adding a new service](./new-service.md) — manual flow for Cloudflare and DuckDNS
 - [Plans](./plans.md) — future migrations and automation
+- [completed/](./completed/) — completed migrations with full step-by-step records
 
 ### Game Server
 

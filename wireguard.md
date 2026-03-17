@@ -2,7 +2,7 @@
 
 ## Overview
 
-WireGuard creates a private tunnel between the VPS and the local machine. All traffic proxied by VPS nginx travels through this tunnel to reach services on the local machine.
+WireGuard creates a private tunnel between the VPS and the homeserver. All traffic proxied by VPS nginx travels through this tunnel to reach services on the homeserver.
 
 ---
 
@@ -11,7 +11,7 @@ WireGuard creates a private tunnel between the VPS and the local machine. All tr
 | Peer | Role |
 |------|------|
 | VPS | Entry point, receives public traffic, forwards via tunnel |
-| Local machine | Runs all services, receives forwarded traffic |
+| Homeserver | Runs all services, receives forwarded traffic |
 | Piotr's machine | Additional peer, direct access to local network |
 
 ---
@@ -24,7 +24,7 @@ WireGuard creates a private tunnel between the VPS and the local machine. All tr
 | Listen port | `51820` |
 | Subnet | `10.0.0.0/24` |
 | VPS | `10.0.0.1` |
-| Local machine | `10.0.0.2` |
+| Homeserver | `10.0.0.2` |
 | Piotr's machine | `10.0.0.3` |
 
 ---
@@ -40,7 +40,7 @@ PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 [Peer]
-# Local machine
+# Homeserver
 PublicKey = <local_machine_public_key>
 AllowedIPs = 10.0.0.2/32
 
@@ -50,7 +50,7 @@ PublicKey = <piotr_public_key>
 AllowedIPs = 10.0.0.3/32
 ```
 
-## Local Machine Config Template
+## Homeserver Config Template
 
 ```ini
 [Interface]
@@ -65,7 +65,7 @@ AllowedIPs = 10.0.0.0/24
 PersistentKeepalive = 25
 ```
 
-`PersistentKeepalive = 25` keeps the tunnel alive through NAT — necessary since the local machine has no public IP.
+`PersistentKeepalive = 25` keeps the tunnel alive through NAT — necessary since the homeserver has no public IP.
 
 ---
 
@@ -107,7 +107,7 @@ Note: IP forwarding must also be enabled at the kernel level (`net.ipv4.ip_forwa
 | Machine | Path |
 |---------|------|
 | VPS | `/etc/wireguard/wg0.conf` |
-| Local machine | `/etc/wireguard/wg0.conf` |
+| Homeserver | `/etc/wireguard/wg0.conf` |
 
 VPS key files:
 

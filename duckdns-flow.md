@@ -28,7 +28,7 @@ sudo ln -s /etc/nginx/sites-available/SHORTNAME /etc/nginx/sites-enabled/SHORTNA
 sudo systemctl reload nginx
 ```
 
-### 3. Start the service on local machine
+### 3. Start the service on homeserver
 
 ```bash
 cd ~/dev/chudas  # or ~/dev/piot
@@ -37,7 +37,7 @@ cd REPO_NAME
 docker compose up -d
 ```
 
-### 4. _(Optional)_ Issue SSL certificate with Certbot
+### 4. _(Optional)_ Issue TLS certificate with Certbot
 
 Same command as for custom domains:
 
