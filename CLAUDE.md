@@ -37,9 +37,10 @@ Internet → VPS (nginx TCP stream proxy, ports 80/443) → WireGuard → Local 
 | `chudkowsky.com` | 3000 | [chudkowsky/personal-page](https://github.com/chudkowsky/personal-page) |
 | `quiz.chudkowsky.com` | 8001 | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
 | `book.chudkowsky.com` | 8002 | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
+| `mixy.chudkowsky.com` | 8003 | [chudkowsky/mix-parser](https://github.com/chudkowsky/mix-parser) |
 | Minecraft | 25565 | — running directly on host in tmux, whitelist-guarded |
 
-Next available port: `8003`
+Next available port: `8004`
 
 ---
 
