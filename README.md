@@ -27,6 +27,11 @@ graph LR
         s1["chudkowsky.com · :3000"]
         s2["quiz.chudkowsky.com · :8001"]
         s3["book.chudkowsky.com · :8002"]
+        s4["mixy.chudkowsky.com · :8003"]
+        s_wp["wp-stec.duckdns.org · :8004"]
+        s5["app.zdaszustne.pl · :8005"]
+        s6["zdaszustne.pl · :8006"]
+        s7["api.zdaszustne.pl · :8007"]
     end
 
     Peer["WireGuard peer\n10.0.0.3+"]
@@ -36,10 +41,15 @@ graph LR
     nginx_local --> s1
     nginx_local --> s2
     nginx_local --> s3
+    nginx_local --> s4
+    nginx_local --> s_wp
+    nginx_local --> s5
+    nginx_local --> s6
+    nginx_local --> s7
     nginx_local <-->|WireGuard| Peer
 ```
 
-**DNS & Domain:** `chudkowsky.com` is registered and managed on Cloudflare. DNS records point to the VPS public IP.
+**DNS & Domains:** `chudkowsky.com` and `zdaszustne.pl` are registered and managed on Cloudflare. `wp-stec.duckdns.org` uses DuckDNS. All DNS records point to the VPS public IP.
 
 **WireGuard peers:**
 - VPS ↔ Homeserver (primary tunnel for traffic forwarding)
@@ -99,11 +109,16 @@ graph LR
 
 All web services run via Docker Compose from `~/dev/chudas/` or `~/dev/piot/`.
 
-| Domain | Port | Directory | Repository |
-|--------|------|-----------|------------|
-| `chudkowsky.com` | 3000 | `~/dev/chudas/personal-page` | [chudkowsky/personal-page](https://github.com/chudkowsky/personal-page) |
-| `book.chudkowsky.com` | 8002 | `~/dev/chudas/howcryptoworksbook` | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
-| `quiz.chudkowsky.com` | 8001 | `~/dev/chudas/interview` | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
+| Domain | Port | Nginx name | Directory | Repository |
+|--------|------|------------|-----------|------------|
+| `chudkowsky.com` | 3000 | `page` | `~/dev/chudas/personal-page` | [chudkowsky/personal-page](https://github.com/chudkowsky/personal-page) |
+| `quiz.chudkowsky.com` | 8001 | `quiz` | `~/dev/chudas/interview` | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
+| `book.chudkowsky.com` | 8002 | `docs` | `~/dev/chudas/howcryptoworksbook` | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
+| `mixy.chudkowsky.com` | 8003 | `mixy` | `~/dev/chudas/mix-parser` | [chudkowsky/mix-parser](https://github.com/chudkowsky/mix-parser) |
+| `wp-stec.duckdns.org` | 8004 | `wp-stec` | — | — WordPress (Piotr) |
+| `app.zdaszustne.pl` | 8005 | `ustne-app` | — | — |
+| `zdaszustne.pl` | 8006 | `ustne-landing` | — | — |
+| `api.zdaszustne.pl` | 8007 | `ustne-api` | — | — |
 
 ---
 

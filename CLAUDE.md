@@ -23,10 +23,11 @@ Internet → VPS (nginx TCP stream proxy, ports 80/443) → WireGuard → Local 
 | VPS | `10.0.0.1` |
 | Homeserver | `10.0.0.2` |
 | Piotr's machine | `10.0.0.3` |
+| Laptop | `10.0.0.4` |
 
 - WireGuard interface: `wg0`, port `51820`
 - VPS public IP: `178.104.50.250`
-- Domain: `chudkowsky.com` — registered and DNS-managed on Cloudflare
+- Domains: `chudkowsky.com`, `zdaszustne.pl` — registered and DNS-managed on Cloudflare; `wp-stec.duckdns.org` uses DuckDNS
 
 ---
 
@@ -38,9 +39,13 @@ Internet → VPS (nginx TCP stream proxy, ports 80/443) → WireGuard → Local 
 | `quiz.chudkowsky.com` | 8001 | [chudkowsky/interview](https://github.com/chudkowsky/interview) |
 | `book.chudkowsky.com` | 8002 | [chudkowsky/howcryptoworksbook](https://github.com/chudkowsky/howcryptoworksbook) |
 | `mixy.chudkowsky.com` | 8003 | [chudkowsky/mix-parser](https://github.com/chudkowsky/mix-parser) |
+| `wp-stec.duckdns.org` | 8004 | — (Piotr's WordPress, DuckDNS) |
+| `app.zdaszustne.pl` | 8005 | — |
+| `zdaszustne.pl` | 8006 | — |
+| `api.zdaszustne.pl` | 8007 | — |
 | Minecraft | 25565 | — running directly on host in tmux, whitelist-guarded |
 
-Next available port: `8004`
+Next available port: `8008`
 
 ---
 
@@ -51,7 +56,7 @@ Next available port: `8004`
 - New services start with HTTP-only nginx config on homeserver; certbot (`sudo certbot --nginx -d DOMAIN`) is optional upgrade
 - No custom domain: use DuckDNS, same certbot command applies
 - All web services run via Docker Compose
-- Repos are cloned under `~/dev/chudas/` (Mateusz's projects) or `~/dev/piot/` (Piotr's projects — currently empty)
+- Repos are cloned under `~/dev/chudas/` (Mateusz's projects) or `~/dev/piot/` (Piotr's projects)
 - Docker Compose structure convention is TBD, will be defined during PaaS automation build
 
 ---

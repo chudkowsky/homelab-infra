@@ -13,6 +13,7 @@ WireGuard creates a private tunnel between the VPS and the homeserver. All traff
 | VPS | Entry point, receives public traffic, forwards via tunnel |
 | Homeserver | Runs all services, receives forwarded traffic |
 | Piotr's machine | Additional peer, direct access to local network |
+| Laptop | Additional peer, direct access to local network |
 
 ---
 
@@ -26,6 +27,7 @@ WireGuard creates a private tunnel between the VPS and the homeserver. All traff
 | VPS | `10.0.0.1` |
 | Homeserver | `10.0.0.2` |
 | Piotr's machine | `10.0.0.3` |
+| Laptop | `10.0.0.4` |
 
 ---
 
@@ -48,6 +50,11 @@ AllowedIPs = 10.0.0.2/32
 # Piotr's machine
 PublicKey = <piotr_public_key>
 AllowedIPs = 10.0.0.3/32
+
+[Peer]
+# Laptop
+PublicKey = <laptop_public_key>
+AllowedIPs = 10.0.0.4/32
 ```
 
 ## Homeserver Config Template
@@ -108,6 +115,7 @@ Note: IP forwarding must also be enabled at the kernel level (`net.ipv4.ip_forwa
 |---------|------|
 | VPS | `/etc/wireguard/wg0.conf` |
 | Homeserver | `/etc/wireguard/wg0.conf` |
+| Laptop | `/etc/wireguard/wg0.conf` |
 
 VPS key files:
 
